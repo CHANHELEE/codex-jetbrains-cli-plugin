@@ -40,6 +40,7 @@
                 icon="/icons/codex.svg">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt X"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
             <add-to-group group-id="Floating.CodeToolbar" anchor="last"/>
         </action>
     </actions>
