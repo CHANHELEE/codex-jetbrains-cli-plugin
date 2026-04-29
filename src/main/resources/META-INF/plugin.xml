@@ -1,0 +1,46 @@
+<idea-plugin>
+    <id>com.codex.jetbrains-plugin</id>
+    <name>Codex Assistant</name>
+    <vendor email="chanhee1158@gmail.com">Codex</vendor>
+    <description>Run Codex CLI from inside JetBrains IDE via the built-in terminal.</description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService
+                serviceInterface="com.codex.plugin.ui.CodexSettings"
+                serviceImplementation="com.codex.plugin.ui.CodexSettings"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.codex.plugin.ui.CodexSettingsConfigurable"
+                id="com.codex.plugin.settings"
+                displayName="Codex Assistant"/>
+        <notificationGroup
+                id="Codex Assistant"
+                displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <action
+                id="Codex.OpenTerminal"
+                class="com.codex.plugin.actions.OpenCodexTerminalAction"
+                text="Open Codex Terminal"
+                description="Open Codex in the built-in terminal with the current file"
+                icon="/icons/codex.svg">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift X"/>
+            <add-to-group group-id="MainToolbarRight" anchor="last"/>
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
+        </action>
+        <action
+                id="Codex.CopyToCodex"
+                class="com.codex.plugin.actions.CodexCopyAction"
+                text="Copy to Codex Terminal"
+                description="Copy the selected code to the running Codex terminal"
+                icon="/icons/codex.svg">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt X"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="Floating.CodeToolbar" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
