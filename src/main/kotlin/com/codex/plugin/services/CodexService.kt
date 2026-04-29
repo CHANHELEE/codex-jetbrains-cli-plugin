@@ -1,18 +1,18 @@
 package com.codex.plugin.services
 
 import com.codex.plugin.ui.CodexSettings
+import com.intellij.terminal.ui.TerminalWidget
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.ToolWindowManager
-import org.jetbrains.plugins.terminal.ShellTerminalWidget
 import org.jetbrains.plugins.terminal.TerminalToolWindowManager
 import java.util.concurrent.ConcurrentHashMap
 import javax.swing.SwingUtilities
 
 object CodexService {
 
-    private val runningTerminals = ConcurrentHashMap<Project, ShellTerminalWidget>()
+    private val runningTerminals = ConcurrentHashMap<Project, TerminalWidget>()
 
     fun isRunning(project: Project): Boolean = runningTerminals.containsKey(project)
 
@@ -34,16 +34,16 @@ object CodexService {
         }
 
         val manager = TerminalToolWindowManager.getInstance(project)
-        val widget = manager.createLocalShellWidget(workDir, "Codex")
+        val widget = manager.createShellWidget(workDir, "Codex", true, true)
         val previousWidget = runningTerminals.putIfAbsent(project, widget)
         if (previousWidget != null) {
             Disposer.dispose(widget)
             return
         }
-        Disposer.register(widget) {
+        widget.addTerminationCallback({
             runningTerminals.remove(project, widget)
-        }
-        widget.executeCommand(cmd)
+        }, project)
+        widget.sendCommandToExecute(cmd)
     }
 
     fun activateTerminal(project: Project) {
@@ -52,7 +52,7 @@ object CodexService {
             val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Terminal") ?: return@invokeLater
             toolWindow.show {
                 val targetContent = toolWindow.contentManager.contents.firstOrNull { content ->
-                    SwingUtilities.isDescendingFrom(widget, content.component)
+                    SwingUtilities.isDescendingFrom(widget.component, content.component)
                 }
                 if (targetContent != null) {
                     toolWindow.contentManager.setSelectedContent(targetContent, true)
@@ -65,9 +65,7 @@ object CodexService {
     fun copyToTerminal(project: Project, text: String): Boolean {
         val widget = runningTerminals[project] ?: return false
         return runCatching {
-            widget.executeWithTtyConnector { connector ->
-                connector.write(text)
-            }
+            widget.ttyConnector?.write(text) ?: return false
         }.isSuccess
     }
 
