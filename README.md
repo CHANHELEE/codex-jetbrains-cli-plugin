@@ -18,7 +18,9 @@
 
 ### JetBrains Marketplace
 
-> 업로드 예정
+[JetBrains Marketplace](https://plugins.jetbrains.com/plugin/31541-codex-assistant)에서 설치할 수 있습니다.
+
+`Settings → Plugins → Marketplace`에서 **Codex Assistant**를 검색하거나 위 링크에서 직접 설치하세요.
 
 ### 수동 설치
 
