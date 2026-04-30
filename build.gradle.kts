@@ -37,4 +37,7 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
+    buildPlugin {
+        archiveBaseName.set("codex-assistant")
+    }
 }

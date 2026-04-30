@@ -1,8 +1,33 @@
 <idea-plugin>
-    <id>com.codex.jetbrains-plugin</id>
+    <id>com.codex.assistant</id>
     <name>Codex Assistant</name>
-    <vendor email="chanhee1158@gmail.com">Codex</vendor>
-    <description>Run Codex CLI from inside JetBrains IDE via the built-in terminal.</description>
+    <vendor email="chanhee1158@gmail.com">Krong</vendor>
+    <description><![CDATA[
+        <p>Run Codex CLI from inside JetBrains IDE via the built-in terminal.</p>
+
+        <h2>How to Open</h2>
+        <ol>
+            <li><b>Shortcut:</b> Press <b>Ctrl+Shift+X</b> or <b>option+command+X</b> to open the terminal in your current project.</li>
+            <li><b>Toolbar:</b> Click the icon in the top toolbar.</li>
+        </ol>
+        <p><i>Note: If a session is already running, you cannot open a new one.</i></p>
+
+        <h2>Sending References (Send File Path To Codex Terminal)</h2>
+        <ol>
+            <li><b>Code:</b> Highlight code and press <b>Ctrl+Alt+X</b> (or use the right-click menu) to send the file path and line numbers.</li>
+            <li><b>Full Files:</b> If no text is selected, the current file path is sent.</li>
+            <li><b>Files/Folders:</b> Right-click an item in the Project View and select "Copy to Codex Terminal" to send the path.</li>
+            <li><b>Multiple Items:</b> You can select several items to send their paths separated by spaces.</li>
+        </ol>
+
+        <h2>Settings</h2>
+        <ol>
+            <li><b>Location:</b> Go to <b>Settings → Tools → Codex Assistant</b>.</li>
+            <li><b>Codex Executable Path:</b> The default setting is "codex." If the file is installed in a location not included in your system PATH, you should enter the full absolute path here.</li>
+            <li><b>Additional CLI Arguments:</b> This field is empty by default but allows you to add specific flags to the "codex" command for every execution.</li>
+            <li><b>Request Confirmation Before Code Changes:</b> This is enabled by default. It automatically adds a security flag that requires your approval before any untrusted code modifications are made.</li>
+        </ol>
+    ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
